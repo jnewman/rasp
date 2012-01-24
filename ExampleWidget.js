@@ -1,11 +1,17 @@
 define([
     'dojo', 
-    'dijit/_Widget',
-    'rasp/util/class/_InitGetters', 
-    'module' 
-], function (dojo, _Widget, _InitGetters, module) {
-    return dojo.declare(module.id.replace(/\//g, '.'), [_Widget, _InitGetters], {
+    'rasp/util/class/_InitGettersMixin', 
+    'module',
+    'dijit/form/TextBox',
+    'rasp/util/class/classCurry'
+], function (dojo, _InitGettersMixin, module, TextBox, classCurry) {
+    return dojo.declare(module.id.replace(/\//g, '.'), [_InitGettersMixin], {
         baz: Array,
-        qux: []
+        qux: [],
+        textBox: classCurry(TextBox, {}, 'main'),
+        
+        foo: function () {
+            return 'Bar';
+        }
     });
 });
