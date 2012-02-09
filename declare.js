@@ -23,9 +23,19 @@ define([], function () {
     };
     
     /**
-     * @param {Function?} constructor
+     * A basic wrapper for built-in JavaScript classes. Mostly creating this as 
+     * a way around other libraries lack of support for descending from native 
+     * types. Example usage:
+     * 
+     *     declare(function Bar() {}, {baz: 'baz!'})
+     *     declare(function Baz() {}, [new Array], {baz: 'baz!'})
+     * 
+     * Take note of the use of new w/built-ins and that those must be declared 
+     * inside an Array.   
+     * 
+     * @param {Function?} Ctor
      * @param {(Array|Object)?} ancestors
-     * @param {Object} prototype
+     * @param {Object} proto
      * @return {constructor}
      */
     return function (Ctor, ancestors, proto) {
