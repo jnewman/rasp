@@ -19,15 +19,15 @@ define([
 
             this.containingForm = getAncestors(this.domNode).filter(function (ancestor) {
                 return ancestor.nodeName === 'FORM';
-            });
+            }).pop();
         },
 
         /**
          * Clear all the inputs in the containingForm.
          */
         onClick: function () {
-            var form = this.containingForm;
-            form.set && form.set('value', (function () {
+            var form = dijit.byNode(this.containingForm);
+            form && form.set && form.set('value', (function () {
                 var values = {};
 
                 var key = '';
@@ -37,6 +37,8 @@ define([
 
                 return values;
             })());
+
+            return false;
         }
     });
 })
