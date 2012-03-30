@@ -1,11 +1,11 @@
 define([
-    'module', '../util/class/define',
+    'module', '../util/class/declare',
     'dojo/query', '../util/dom/getAncestors', './Button'
 ], function (
-    module, define,
+    module, declare,
     query, getAncestors, Button
 ) {
-    return define(module.id, [Button], {
+    return declare(module.id, [Button], {
         /**
          * @type {HTMLFormElement}
          */
