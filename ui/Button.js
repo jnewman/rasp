@@ -13,7 +13,7 @@ define([
          * Re-add all the attach-points and attach the click handler.
          */
         buildRendering: function () {
-            this.domNode = this.valueNode = this.titleNode = this.focusNode = this.iconNode = this.srcNodeRef;
+            this.domNode = this.titleNode = this.focusNode = this.iconNode = this.srcNodeRef;
             delete this.srcNodeRef;
 
             this.connect(this.domNode, 'click', this._onClick);
