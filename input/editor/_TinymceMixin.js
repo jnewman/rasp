@@ -22,7 +22,7 @@ define([
         /**
          * @type {tinymce.Editor}
          */
-        _editor: null,
+        _tinymceInstance: null,
 
         /**
          * Setup tinymce on the instance..
@@ -45,15 +45,15 @@ define([
                 })
             });
 
-            this._editor = new tinymce.Editor(id, config);
-            this._editor.init();
+            this._tinymceInstance = new tinymce.Editor(id, config);
+            this._tinymceInstance.init();
         },
 
         /**
          *
          */
         _tinymceInit: function () {
-            this._editor.show();
+            this._tinymceInstance.show();
             console.log(this, arguments);
         }
     });
