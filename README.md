@@ -5,4 +5,8 @@ library that'll lay on top of Dojo and help me do useful stuff, like:
  - Extend Array to provide nicer collections
  - Whatever seems useful
  
-This might not go anywhere.
+*Dependencies*
+
+ - tinymce >= 3.5
+ - dojo >= 1.7
+ - CodeMirror >= 2.2
