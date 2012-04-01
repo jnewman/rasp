@@ -2,7 +2,7 @@ define([
     'module', '../../util/class/declare',
     'dojo/_base/lang', 'dojo/dom-attr',
     'config/tinymce-config',
-    '../../amd/tinymce'
+    '../../amd/tinymce!'
 ], function (
     module, declare,
     lang, domAttr,
@@ -39,17 +39,21 @@ define([
             var id = this.id + '_tinymceEditor';
             domAttr.set(node, 'id', id);
 
-            lang.mixin(config, {
-                instance_init_callback: lang.hitch(this, this._tinymceInit)
+            config = lang.mixin({}, config, {
+                setup: lang.hitch(this, function (editor) {
+                    editor.onInit.add(this._tinymceInit, this);
+                })
             });
 
             this._editor = new tinymce.Editor(id, config);
+            this._editor.init();
         },
 
         /**
          *
          */
         _tinymceInit: function () {
+            this._editor.show();
             console.log(this, arguments);
         }
     });

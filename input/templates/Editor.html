@@ -1,4 +1,13 @@
-<div>
-    <!-- Attach the mandatory tinymce node. -->
-    <textarea data-dojo-attach-point="_tinymceNode"></textarea>
+<div class="claro">
+    <div data-dojo-type="dijit.layout.TabContainer" style="min-height: 600px;">
+        <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Wysiwyg'">
+            <textarea data-dojo-attach-point="_tinymceNode"></textarea>
+        </div>
+        <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Code'">
+            <textarea data-dojo-attach-point="_codemirrorNode"></textarea>
+        </div>
+        <div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="title: 'Preview'">
+            <textarea data-dojo-attach-point="_previewNode"></textarea>
+        </div>
+    </div>
 </div>
