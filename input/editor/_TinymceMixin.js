@@ -1,11 +1,11 @@
 define([
     'module', '../../util/class/declare',
-    'dojo/_base/lang', 'dojo/dom-attr',
+    'dojo/_base/lang', 'dojo/dom-attr', 'dojo/_base/Deferred',
     'config/tinymce-config',
     '../../amd/tinymce!'
 ], function (
     module, declare,
-    lang, domAttr,
+    lang, domAttr, Deferred,
     config,
     tinymce
 ) {
@@ -20,14 +20,34 @@ define([
         _tinymceNode: null,
 
         /**
+         * @protected
          * @type {tinymce.Editor}
          */
         _tinymceInstance: null,
 
         /**
+         * @protected
+         * @type {string}
+         */
+        _tinymceValue: '',
+
+        /**
+         * @protected
+         * @type {dojo._base.Deferred}
+         */
+        _tinymceInitDef: null,
+
+        /**
+         * Initialize the deferred, so we can block setters while tinymce loads.
+         */
+        constructor: function () {
+            this._tinymceInitDef = new Deferred;
+        },
+
+        /**
          * Setup tinymce on the instance..
          */
-        startup: function () {
+        postCreate: function () {
             this.inherited(arguments);
 
             var node = this.get('_tinymceNode');
@@ -35,13 +55,14 @@ define([
                 throw '_tinymceNode is a required property.';
             }
 
-            // This should always be set by attach-points
             var id = this.id + '_tinymceEditor';
             domAttr.set(node, 'id', id);
 
+            // Make sure we're connected.
             config = lang.mixin({}, config, {
                 setup: lang.hitch(this, function (editor) {
                     editor.onInit.add(this._tinymceInit, this);
+                    editor.onChange.add(this._tinymceChange, this);
                 })
             });
 
@@ -50,11 +71,75 @@ define([
         },
 
         /**
-         *
+         * @protected
+         * Let the widget know we've got tinymce running.
          */
         _tinymceInit: function () {
-            this._tinymceInstance.show();
-            console.log(this, arguments);
+            this._tinymceInitDef.resolve();
+        },
+
+        /**
+         * Makes sure we don't cascade into a stack overflow.
+         *
+         * @private
+         * @type {boolean}
+         */
+        _setByTinymce: false,
+
+        /**
+         * Safely set tinymce's value to that of this widget.
+         *
+         * @public
+         * @param {string}
+         * @return {T}
+         */
+        _setValueAttr: function (value) {
+            this.inherited(arguments);
+            if (!this._setByTinymce) {
+                this.set('_tinymceValue', value);
+            }
+
+            return this;
+        },
+
+        /**
+         * Update the _Widget's value prop.
+         * @protected
+         */
+        _tinymceChange: function () {
+            this._setByTinymce = true;
+            this.set('value', this.get('_tinymceValue'));
+            this._setByTinymce = false;
+        },
+
+        /**
+         * @protected
+         * @param {Object} settings See tinymce.Editor.getContent for details.
+         * @return {*} normally a string, but affected by settings.
+         */
+        _get_tinymceValueAttr: function (settings) {
+            return this._tinymceInstance.getContent(settings);
+        },
+
+        /**
+         * @protected
+         * @param {*} value
+         * @param {Object} settings See tinymce.Editor.setContent for details.
+         * @return {T}
+         */
+        _set_tinymceValueAttr: function (value, settings) {
+            this._tinymceValue = value;
+
+            if (!!this._tinymceInstance) {
+                this._tinymceInstance.setContent(value, settings);
+            } else {
+                console.info(this, 'setter inFlight');
+                this._tinymceInitDef.then(lang.hitch(this, function () {
+                    this._set('_tinymceValue', value, settings);
+                }));
+            }
+
+            return this;
         }
     });
 });

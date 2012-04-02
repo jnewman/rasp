@@ -17,25 +17,34 @@ define([
         _codeMirrorNode: null,
 
         /**
+         * @protected
          * @type {CodeMirror}
          */
         _codeMirrorInstance: null,
 
         /**
+         * @protected
          * @type {string}
          */
         _codeMirrorValue: '',
 
+        /**
+         * @protected
+         * @type {dojo._base.Deferred}
+         */
         _codeMirrorInitDef: null,
 
+        /**
+         * Initialize the deferred, so we can block setters while CodeMirror loads.
+         */
         constructor: function () {
             this._codeMirrorInitDef = new Deferred;
         },
 
         /**
-         * Setup tinymce on the instance..
+         * Setup CodeMirror on the instance..
          */
-        startup: function () {
+        postCreate: function () {
             this.inherited(arguments);
 
             var node = this.get('_codeMirrorNode');
@@ -56,6 +65,7 @@ define([
         },
 
         /**
+         * @protected
          * Let setters know CodeMirror is ready.
          */
         _codeMirrorInit: function () {
@@ -65,6 +75,7 @@ define([
         /**
          * Makes sure we don't cascade into a stack overflow.
          *
+         * @private
          * @type {boolean}
          */
         _setByCodeMirror: false,
@@ -76,6 +87,7 @@ define([
          * @return {T}
          */
         _setValueAttr: function (value) {
+            this.inherited(arguments);
             if (!this._setByCodeMirror) {
                 this.set('_codeMirrorValue', value);
             }
@@ -83,26 +95,38 @@ define([
             return this;
         },
 
-
-        _codeMirrorChange: function (value) {
+        /**
+         * Update the _Widget's value prop.
+         * @protected
+         */
+        _codeMirrorChange: function () {
             this._setByCodeMirror = true;
             this.set('value', this.get('_codeMirrorValue'));
             this._setByCodeMirror = false;
         },
 
+        /**
+         * @protected
+         * @return {string}
+         */
         _get_codeMirrorValueAttr: function () {
             return this._codeMirrorInstance.getCode();
         },
 
+        /**
+         * @protected
+         * @param {string} value
+         * @return {T}
+         */
         _set_codeMirrorValueAttr: function (value) {
             this._codeMirrorValue = value;
 
             if (!!this._codeMirrorInstance) {
                 this._codeMirrorInstance.setCode(value);
             } else {
-                console.info('setter inFlight');
+                console.info(this, 'setter inFlight');
                 this._codeMirrorInitDef.then(lang.hitch(this, function () {
-                    this._codeMirrorInstance.setCode(value);
+                    this.set('_codeMirrorValue', value);
                 }));
             }
 

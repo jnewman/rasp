@@ -29,7 +29,8 @@ define([
          * @return {T}
          */
         _setValueAttr: function (value) {
-            // Required by the Mixins. TODO factor this out.
+            // Required for our mixins to know they need to update their
+            // editors.
             this.inherited(arguments);
 
             this._valueNode.innerHTML = value;
