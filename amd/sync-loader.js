@@ -1,6 +1,6 @@
 define([
-    'module', 'require', 'dojo/_base/array', 'dojo/_base/Deferred'
-], function (module, require, arrayUtils, Deferred) {
+    'module', 'require', 'dojo/_base/array', 'dojo/_base/lang', 'dojo/_base/Deferred'
+], function (module, require, arrayUtils, lang, Deferred) {
     var modules = {};
 
     return {
@@ -28,9 +28,11 @@ define([
                 });
 
                 // Start loading the first one.
-                req([name], function () {
+                req([req.toUrl(name) + '.js'], function () {
                     mods[0].def.resolve(name);
-                    load(req(name));
+
+                    var loaded = lang.getObject(name.replace(/\//g, '.')) || req(name);
+                    load(loaded);
                     console.log("Loaded", name);
                 });
 
@@ -41,12 +43,13 @@ define([
                     if (req.toUrl(mod.name) === req.toUrl(name)) { // It's this module.
                         // Wait for the previous, then load this one.
                         mods[i - 1].def.then(function () {
-                            req([name], function () {
+                            req([req.toUrl(name) + '.js'], function () {
 
                                 // The last module doesn't need a deferred.
                                 mod.def && mod.def.resolve(name);
 
-                                load(req(name));
+                                var loaded = lang.getObject(name.replace(/\//g, '.')) || req(name);
+                                load(loaded);
                                 console.log("Loaded", name);
                             });
                         });
