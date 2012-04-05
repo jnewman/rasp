@@ -1,5 +1,5 @@
 define([
-    'module', '../util/class/declare', 'dijit/form/Button'
+    'module', 'sync-loader!../util/class/declare', 'sync-loader!dijit/form/Button'
 ], function (module, declare, Button) {
     return declare(module.id, [Button], {
         /**

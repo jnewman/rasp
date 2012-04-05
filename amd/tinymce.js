@@ -106,6 +106,7 @@ define([
                 'tinymce/plugins/iespell/editor_plugin_src',
                 'tinymce/plugins/noneditable/editor_plugin_src',
                 'tinymce/plugins/style/editor_plugin_src',
+                'tinymce/themes/simple/editor_template_src',
                 'tinymce/themes/advanced/editor_template_src'
 
             ], function () {
