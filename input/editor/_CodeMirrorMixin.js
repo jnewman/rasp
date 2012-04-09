@@ -121,14 +121,9 @@ define([
         _set_codeMirrorValueAttr: function (value) {
             this._codeMirrorValue = value;
 
-            if (!!this._codeMirrorInstance) {
+            this._codeMirrorInitDef.then(lang.hitch(this, function () {
                 this._codeMirrorInstance.setCode(value);
-            } else {
-                console.info(this, 'setter inFlight');
-                this._codeMirrorInitDef.then(lang.hitch(this, function () {
-                    this.set('_codeMirrorValue', value);
-                }));
-            }
+            }));
 
             return this;
         }

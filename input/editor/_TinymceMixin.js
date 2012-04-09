@@ -130,14 +130,9 @@ define([
         _set_tinymceValueAttr: function (value, settings) {
             this._tinymceValue = value;
 
-            if (!!this._tinymceInstance) {
+            this._tinymceInitDef.then(lang.hitch(this, function () {
                 this._tinymceInstance.setContent(value, settings);
-            } else {
-                console.info(this, 'setter inFlight');
-                this._tinymceInitDef.then(lang.hitch(this, function () {
-                    this._set('_tinymceValue', value, settings);
-                }));
-            }
+            }));
 
             return this;
         }
