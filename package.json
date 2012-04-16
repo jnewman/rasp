@@ -6,7 +6,9 @@
         "dojo": "current",
         "dijit": "current",
         "dojox": "current",
-        "util": "current"
+        "util": "current",
+        "codemirror": "current",
+        "tinymce": "current"
     },
     "description": "",
     "licenses": [
