@@ -1,0 +1,22 @@
+{
+    "name": "rasp",
+    "version": "0.1",
+    "main": "main",
+    "dependencies": {
+        "dojo": "current",
+        "dijit": "current",
+        "dojox": "current",
+        "util": "current"
+    },
+    "description": "",
+    "licenses": [
+        {
+            "type": "BSD",
+            "url": "https://github.com/jnewman/Rasp/blob/master/LICENSE.md"
+        }
+    ],
+    "bugs": "https://github.com/jnewman/Rasp/issues",
+    "keywords": ["JavaScript", "Dojo"],
+    "homepage": "https://github.com/jnewman/Rasp",
+    "dojoBuild": "rasp.profile.js"
+}
