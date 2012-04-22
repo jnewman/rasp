@@ -1,0 +1,82 @@
+
+
+
+<html>
+<head>
+
+    <title>
+
+        Jerry Newman roofing and remodeling Inc.
+
+    </title>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Script-Type" content="text/javascript">
+    <meta http-equiv="Content-Style-Type" content="text/css">
+
+
+
+    <link rel="Shortcut Icon" href="/static/images/jnr.ico" type="image/x-icon" />
+
+    <!--// Special fonts, must use links //-->
+    <link href='http://fonts.googleapis.com/css?family=Carter+One' rel='stylesheet' />
+    <link href="/static/less/main.less" rel="stylesheet/less" />
+
+    <script>window.less = {env: 'development'};</script>
+    <!-- Page flashes if we don't load less directly in the head.-->
+    <script src="/static/js/contrib/less/dist/less-1.3.0.min.js"></script>
+
+
+
+    <!--[if lt IE 9]>
+            <script src="/static/js/contrib/html5shiv/src/html5shiv.js"></script>
+            <![endif]-->
+
+    <script src="/static/js/contrib/dojo/dojo.js"></script>
+    <script src="/static/js/config/loader-config.js"></script>
+
+    <style>
+        .rotator{
+            background-color:#fff;
+            border:solid 1px #e5e5e5;
+            width:400px;
+            height:180px;
+            overflow:hidden;
+        }
+        .pane{
+            background-color:#fff;
+            width:400px;
+            height:180px;
+            overflow:hidden;
+            padding: 10px;
+        }
+        .pane0{
+            background-color:#fff79e;
+        }
+        .pane1{
+            background-color:#ffd4a0;
+        }
+        .pane2{
+            background-color:#ffa0a0;
+        }
+    </style>
+</head>
+<body>
+<div data-dojo-type="dojox.widget.AutoRotator" data-dojo-props="duration:2000, transition:'dojox.widget.rotator.crossFade'" class="rotator" id="myAutoRotator3" data-dojo-id="myAutoRotatorInstance3">
+    <div class="pane pane0">
+        <h3>Dojo</h3>
+        <p>Tons of features like CSS-based queries, event handling, animations, Ajax, class-based programming, and a package system</p>
+    </div>
+    <div class="pane pane1" waitForEvent="myEvent">
+        <h3>Dijit</h3>
+        <p>Dojo's themeable, accessible, easy-to-customize UI Library</p>
+        <p><button onclick="dojo.publish('myEvent')">Continue!</button></p>
+    </div>
+    <div class="pane pane2">
+        <h3>DojoX</h3>
+        <p>Dojo eXtensions</p>
+    </div>
+</div>
+</body>
+</html>
