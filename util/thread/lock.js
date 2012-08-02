@@ -1,4 +1,4 @@
-define(function () {
+(function (global) {
     var undef;
 
     /**
@@ -39,16 +39,20 @@ define(function () {
      * @param {Function} condition
      * @param {number} [checkInterval=50] How long
      */
-    return function (condition, checkInterval, releaseDuration) {
-        checkInterval = arg(checkInterval, 50);
+    var lockThreadUntil = global.lockThreadUntil = function (condition, checkInterval, releaseDuration) {
+        checkInterval = arg(checkInterval, 500);
         releaseDuration = arg(releaseDuration, 0);
 
         var id = setInterval(function () {
             if (!condition()) {
                 lock(checkInterval);
             } else {
-                clearTimeout(id);
+                clearInterval(id);
             }
         }, releaseDuration);
     };
-});
+
+    define(function () {
+        return lockThreadUntil;
+    });
+})(this);
