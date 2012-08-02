@@ -1,10 +1,22 @@
 define(function () {
     var undef;
 
+    /**
+     * Simple args getter.
+     *
+     * @param {*} arg Used if defined.
+     * @param otherwise Used if arg is not defined.
+     * @return {*}
+     */
     var arg = function (arg, otherwise) {
         return arg !== undef ? arg : otherwise;
     };
 
+    /**
+     * Locks up the main thread as soon as the current thread completes.
+     *
+     * @param {number} time
+     */
     var lock = function (time) {
         setTimeout(function () {
             var start = +(new Date),
@@ -21,9 +33,11 @@ define(function () {
     };
 
     /**
+     * Locks up the main thread until a condition is met, releasing it
+     * momentarily to allow other "threads" to advance.
+     *
      * @param {Function} condition
      * @param {number} [checkInterval=50] How long
-     * @param {number} [releaseDuration=0] How long to release the thread.
      */
     return function (condition, checkInterval, releaseDuration) {
         checkInterval = arg(checkInterval, 50);
