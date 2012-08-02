@@ -40,7 +40,7 @@
      * @param {number} [checkInterval=50] How long
      */
     var lockThreadUntil = global.lockThreadUntil = function (condition, checkInterval, releaseDuration) {
-        checkInterval = arg(checkInterval, 500);
+        checkInterval = arg(checkInterval, 50);
         releaseDuration = arg(releaseDuration, 0);
 
         var id = setInterval(function () {
