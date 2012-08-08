@@ -8,6 +8,9 @@ define([
      */
     return function (moduleOrCtor, ancestors, proto) {
         var args = aSlice.call(arguments);
+
+        moduleOrCtor = lang.isString(moduleOrCtor.id) ? moduleOrCtor.id : moduleOrCtor;
+
         if (lang.isString(moduleOrCtor)) {
             args.splice(0, 1, moduleOrCtor.split('/').join('.'));
             return declare.apply(this, args);
